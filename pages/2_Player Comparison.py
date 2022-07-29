@@ -189,4 +189,4 @@ if button:
         st.plotly_chart(resultsxG(player,player2,player1name,player2name))
         st.plotly_chart(hist(bigdf))
     except Exception as e:
-        st.write(e)
+        st.write("There was an error. Please retry with different values. ")

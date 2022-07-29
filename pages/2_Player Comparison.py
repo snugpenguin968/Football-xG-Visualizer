@@ -45,7 +45,7 @@ def shotMap(bigdf):
     return fig
 def lineChart(player,player2,player1name,player2name):
     fig = make_subplots(rows=1, cols=2,shared_yaxes=True)
-    fig.update_layout(title='Cumulative Goals and Cumulative xG Over Time',width=1200)
+    fig.update_layout(title='Cumulative Goals and Cumulative xG Over Time',width=1300)
     fig.add_trace(go.Scatter(x=player.date, y=player['cum goals'], name='{} goals'.format(player1name), mode='lines',
                              line_color="#006400"), row=1, col=1)
     fig.add_trace(
@@ -69,7 +69,7 @@ def shotTypes(player,player2,player1name,player2name):
     values2 = shotTypes2['shotType']
 
     fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'pie'}, {'type': 'pie'}]])
-    fig.update_layout(title='Player Shot Types',width=1400)
+    fig.update_layout(title='Player Shot Types',width=1200)
     fig.add_trace(go.Pie(values=values1, labels=labels1, name=player1name, marker=dict(colors=px.colors.sequential.RdBu)),
                   row=1, col=1)
     fig.add_trace(go.Pie(values=values2, labels=labels2, name=player2name), row=1, col=2)
@@ -85,7 +85,7 @@ def results(player,player2,player1name,player2name):
     values2 = result2['result']
 
     fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'pie'}, {'type': 'pie'}]])
-    fig.update_layout(title='Player Shot Results',width=1400)
+    fig.update_layout(title='Player Shot Results',width=1200)
     fig.add_trace(go.Pie(values=values1, labels=labels1, name=player1name, marker=dict(colors=px.colors.sequential.RdBu)),
                   row=1, col=1)
     fig.add_trace(go.Pie(values=values2, labels=labels2, name=player2name), row=1, col=2)

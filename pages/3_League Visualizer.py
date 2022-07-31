@@ -85,7 +85,7 @@ def PPDA(deeo_df):
                      color='Deep Passes', color_continuous_scale=px.colors.sequential.YlGn)
     fig.update_layout(
         title=format_title('{} {} Goals Scored vs PPDA'.format(league_choice, search_year),
-                           "PPDA is passes allowed per defensive action in the opposition half - i.e. team's pressing power. A high PPDA reflects effective pressing."),
+                           "PPDA is passes allowed per defensive action in the opposition half - i.e. team's pressing power. "),
         width=1000, height=500)
     return fig
 def OPPDA(deep_df):

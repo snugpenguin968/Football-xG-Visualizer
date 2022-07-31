@@ -67,7 +67,7 @@ def ConcededScatter(ga_df):
     return fig
 def DeepPasses(deep_df):
     fig = px.scatter(deep_df, x=deep_df['Deep Passes'], y=deep_df['Scored'], hover_data=[deep_df.index],
-                     color='Deep Passes', size='Scored')
+                     color='Scored', size='Scored')
     fig.update_layout(title=format_title('{} {} Goals Scored vs Deep Passes'.format(league_choice, search_year),
                                          "Deep passes are passes completed within 20 yards of the opponent's goal (crosses excluded)"),
                       width=1000, height=500)
@@ -76,7 +76,7 @@ def DeepPasses(deep_df):
 
 def DeepAllowed(deep_df):
     fig = px.scatter(deep_df, x=deep_df['Deep Passes Allowed'], y=deep_df['Conceded'], hover_data=[deep_df.index],
-                     color='Deep Passes Allowed', size='Conceded', color_continuous_scale=px.colors.sequential.OrRd)
+                     color='Conceded', size='Conceded', color_continuous_scale=px.colors.sequential.OrRd)
     fig.update_layout(title=format_title('{} {} Goals Allowed vs Deep Passes Allowed'.format(league_choice, search_year),"Deep passes are opponent passes completed within 20 yards of goal (crosses excluded)"),
                       width=1000, height=500)
     return fig

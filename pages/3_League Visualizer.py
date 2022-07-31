@@ -85,7 +85,7 @@ def PPDA(deeo_df):
                      color='Deep Passes', color_continuous_scale=px.colors.sequential.YlGn)
     fig.update_layout(
         title=format_title('{} {} Goals Scored vs PPDA'.format(league_choice, search_year),
-                           "PPDA is passes allowed per defensive action in the opposition half - i.e. team's pressing power. "),
+                           "PPDA is passes allowed per defensive action in the opposition half - i.e. team's pressing power"),
         width=1000, height=500)
     return fig
 def OPPDA(deep_df):
@@ -110,74 +110,77 @@ search_year=st.selectbox('Choose a Season',[2014,2015,2016,2017,2018,2019,2020,2
 button=st.button('Submit')
 
 if button:
-    league_new=None
-    if league_choice=="La Liga":
-        league_new="La_liga"
-    elif league_choice=="Premier League":
-        league_new="EPL"
-    elif league_choice=="Serie A":
-        league_new="Serie_A"
-    elif league_choice=="Ligue 1":
-        league_new="Ligue_1"
-    else:
-        league_new="Bundesliga"
-    league = []
-    for index, row in all_teams.iterrows():
-        if index[0] == league_new and index[1] == search_year:
-            league.append(row)
+    try:
+        league_new=None
+        if league_choice=="La Liga":
+            league_new="La_liga"
+        elif league_choice=="Premier League":
+            league_new="EPL"
+        elif league_choice=="Serie A":
+            league_new="Serie_A"
+        elif league_choice=="Ligue 1":
+            league_new="Ligue_1"
+        else:
+            league_new="Bundesliga"
+        league = []
+        for index, row in all_teams.iterrows():
+            if index[0] == league_new and index[1] == search_year:
+                league.append(row)
 
-    all_points = []
-    all_xpts = []
-    xpts_diff = []
-    team_names = []
-    goals_scored = []
-    xG = []
-    xgdiff = []
-    goals_against = []
-    xgoals_against = []
-    xgoals_against_diff = []
-    deep = []
-    deep_allowed = []
-    ppda = []
-    oppda = []
-    for i in league:
-        team_names.append(i['team'])
-        all_points.append(i['pts'])
-        all_xpts.append(i['xpts'])
-        xpts_diff.append(i['xpts_diff'])
-        goals_scored.append(i['scored'])
-        xG.append(i['xG'])
-        xgdiff.append(i['xG_diff'])
-        goals_against.append(i['missed'])
-        xgoals_against.append(i['xGA'])
-        xgoals_against_diff.append(i['xGA_diff'])
-        deep.append(i['deep'])
-        deep_allowed.append(i['deep_allowed'])
-        ppda.append(i['ppda_coef'])
-        oppda.append(i['oppda_coef'])
+        all_points = []
+        all_xpts = []
+        xpts_diff = []
+        team_names = []
+        goals_scored = []
+        xG = []
+        xgdiff = []
+        goals_against = []
+        xgoals_against = []
+        xgoals_against_diff = []
+        deep = []
+        deep_allowed = []
+        ppda = []
+        oppda = []
+        for i in league:
+            team_names.append(i['team'])
+            all_points.append(i['pts'])
+            all_xpts.append(i['xpts'])
+            xpts_diff.append(i['xpts_diff'])
+            goals_scored.append(i['scored'])
+            xG.append(i['xG'])
+            xgdiff.append(i['xG_diff'])
+            goals_against.append(i['missed'])
+            xgoals_against.append(i['xGA'])
+            xgoals_against_diff.append(i['xGA_diff'])
+            deep.append(i['deep'])
+            deep_allowed.append(i['deep_allowed'])
+            ppda.append(i['ppda_coef'])
+            oppda.append(i['oppda_coef'])
 
-    points_df = pd.DataFrame({'Points': all_points, 'Expected Points': all_xpts})
-    points_df.index = team_names
-    goals_df = pd.DataFrame({'Scored': goals_scored, 'xG': xG, 'Goals Scored-Expected Goals': xgdiff})
-    goals_df.index = team_names
-    ga_df = pd.DataFrame({'Conceded': goals_against, 'Expected Goals Against': xgoals_against,
-                          'Expected Goals Against-Goals Against': xgoals_against_diff})
-    ga_df.index = team_names
-    deep_df = pd.DataFrame(
-        {'Deep Passes': deep, 'Deep Passes Allowed': deep_allowed, 'Scored': goals_scored, 'Conceded': goals_against,
-         'PPDA': ppda, 'OPPDA': oppda})
-    deep_df.index = team_names
+        points_df = pd.DataFrame({'Points': all_points, 'Expected Points': all_xpts})
+        points_df.index = team_names
+        goals_df = pd.DataFrame({'Scored': goals_scored, 'xG': xG, 'Goals Scored-Expected Goals': xgdiff})
+        goals_df.index = team_names
+        ga_df = pd.DataFrame({'Conceded': goals_against, 'Expected Goals Against': xgoals_against,
+                              'Expected Goals Against-Goals Against': xgoals_against_diff})
+        ga_df.index = team_names
+        deep_df = pd.DataFrame(
+            {'Deep Passes': deep, 'Deep Passes Allowed': deep_allowed, 'Scored': goals_scored, 'Conceded': goals_against,
+             'PPDA': ppda, 'OPPDA': oppda})
+        deep_df.index = team_names
 
-    st.plotly_chart(ExpectedPoints(points_df))
-    st.plotly_chart(ExpectedGoals((goals_df)))
-    st.plotly_chart(ExpectedConceded(ga_df))
-    st.plotly_chart(GoalsScatter(goals_df))
-    st.plotly_chart(ConcededScatter(ga_df))
+        st.plotly_chart(ExpectedPoints(points_df))
+        st.plotly_chart(ExpectedGoals((goals_df)))
+        st.plotly_chart(ExpectedConceded(ga_df))
+        st.plotly_chart(GoalsScatter(goals_df))
+        st.plotly_chart(ConcededScatter(ga_df))
 
-    st.plotly_chart(DeepPasses(deep_df))
-    st.plotly_chart(DeepAllowed(deep_df))
-    st.plotly_chart(PPDA(deep_df))
-    st.plotly_chart(OPPDA(deep_df))
+        st.plotly_chart(DeepPasses(deep_df))
+        st.plotly_chart(DeepAllowed(deep_df))
+        st.plotly_chart(PPDA(deep_df))
+        st.plotly_chart(OPPDA(deep_df))
+    except:
+        st.write("There was an error. Please try again with different values.")
 
 
 

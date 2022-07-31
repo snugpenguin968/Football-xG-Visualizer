@@ -5,6 +5,6 @@ This Streamlit app allows the user to generate key visuals for football (soccer)
 
 - [This article](https://towardsdatascience.com/web-scraping-advanced-football-statistics-11cace1d863a) taught me how to webscrape the understat data.
 
--[This Kaggle page](https://www.kaggle.com/datasets/slehkyi/extended-football-stats-for-european-leagues-xg) defines some of the team statistics. 
+- [This Kaggle page](https://www.kaggle.com/datasets/slehkyi/extended-football-stats-for-european-leagues-xg) defines some of the team statistics. 
 
 Leagues supported: Premier League, Bundesliga, La Liga, Serie A, and Ligue 1

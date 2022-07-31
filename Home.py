@@ -11,7 +11,7 @@ st.sidebar.success("Select a tool above.")
 
 st.markdown(
     """
-    This app visualizes player or team xG statistics. All data is from understat.com. Perform searches on players using their understat ID. Perform searches on teams using the dropdown list. 
+    This app visualizes player or team xG statistics (Premier League, Bundesliga, La Liga, Serie A, Ligue 1). All data is from understat.com. Perform searches on players using their understat ID. Perform searches on teams using the dropdown list. 
 
     **👈 Select a tool from the sidebar** to get started!
     ### Features 

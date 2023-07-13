@@ -132,61 +132,58 @@ end=dates_input[1]
 
 if button:
     understat = UnderstatClient()
-    try:
-        player_shot_data1 = understat.player(player=player1_id).get_shot_data()
-        player = pd.DataFrame(player_shot_data1)
-        player_shot_data2=understat.player(player=player2_id).get_shot_data()
-        player2=pd.DataFrame(player_shot_data2)
-        player.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
-        player2.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player2.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
-        player = player[player.result != 'OwnGoal']
-        player2 = player2[player2.result != 'OwnGoal']
-        player['date'] = pd.to_datetime(player['date']).dt.date
-        player['Goals Scored'] = 0
-        player2['date'] = pd.to_datetime(player2['date']).dt.date
-        player2['Goals Scored'] = 0
-        player1name = player['player'][0]
-        player2name = player2['player'][0]
-        for index, row in player.iterrows():
-            if row['result'] == 'Goal':
-                player.at[index, 'Goals Scored'] = 1
-        for index, row in player2.iterrows():
-            if row['result'] == 'Goal':
-                player2.at[index, 'Goals Scored'] = 1
+    player_shot_data1 = understat.player(player=player1_id).get_shot_data()
+    player = pd.DataFrame(player_shot_data1)
+    player_shot_data2=understat.player(player=player2_id).get_shot_data()
+    player2=pd.DataFrame(player_shot_data2)
+    player.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
+    player2.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player2.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
+    player = player[player.result != 'OwnGoal']
+    player2 = player2[player2.result != 'OwnGoal']
+    player['date'] = pd.to_datetime(player['date']).dt.date
+    player['Goals Scored'] = 0
+    player2['date'] = pd.to_datetime(player2['date']).dt.date
+    player2['Goals Scored'] = 0
+    player1name = player['player'][0]
+    player2name = player2['player'][0]
+    for index, row in player.iterrows():
+        if row['result'] == 'Goal':
+            player.at[index, 'Goals Scored'] = 1
+    for index, row in player2.iterrows():
+        if row['result'] == 'Goal':
+            player2.at[index, 'Goals Scored'] = 1
 
-        player['cum goals'] = np.round(player['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player['cum xg'] = np.round(player['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player['diff'] = np.round((player['Goals Scored'] - player['xG']).to_numpy().astype(np.double), decimals=6)
-        player['xG'] = np.round(player['xG'].to_numpy().astype(np.double), decimals=6)
-        player['IsGoal'] = np.nan
-        for index, row in player.iterrows():
-            if row['result'] == 'Goal':
-                player.at[index, 'IsGoal'] = 'Goal'
-            else:
-                player.at[index, 'IsGoal'] = 'No Goal'
-        player=player.loc[(player['season'] >= start) & (player['season'] <= end)]
+    player['cum goals'] = np.round(player['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player['cum xg'] = np.round(player['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player['diff'] = np.round((player['Goals Scored'] - player['xG']).to_numpy().astype(np.double), decimals=6)
+    player['xG'] = np.round(player['xG'].to_numpy().astype(np.double), decimals=6)
+    player['IsGoal'] = np.nan
+    for index, row in player.iterrows():
+        if row['result'] == 'Goal':
+            player.at[index, 'IsGoal'] = 'Goal'
+        else:
+            player.at[index, 'IsGoal'] = 'No Goal'
+    player=player.loc[(player['season'] >= start) & (player['season'] <= end)]
 
-        player2['cum goals'] = np.round(player2['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player2['cum xg'] = np.round(player2['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player2['diff'] = np.round((player2['Goals Scored'] - player2['xG']).to_numpy().astype(np.double), decimals=6)
-        player2['xG'] = np.round(player2['xG'].to_numpy().astype(np.double), decimals=6)
-        player2['IsGoal'] = np.nan
-        for index, row in player2.iterrows():
-            if row['result'] == 'Goal':
-                player2.at[index, 'IsGoal'] = 'Goal'
-            else:
-                player2.at[index, 'IsGoal'] = 'No Goal'
-        player2 = player2.loc[(player2['season'] >= start) & (player2['season'] <= end)]
+    player2['cum goals'] = np.round(player2['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player2['cum xg'] = np.round(player2['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player2['diff'] = np.round((player2['Goals Scored'] - player2['xG']).to_numpy().astype(np.double), decimals=6)
+    player2['xG'] = np.round(player2['xG'].to_numpy().astype(np.double), decimals=6)
+    player2['IsGoal'] = np.nan
+    for index, row in player2.iterrows():
+        if row['result'] == 'Goal':
+            player2.at[index, 'IsGoal'] = 'Goal'
+        else:
+            player2.at[index, 'IsGoal'] = 'No Goal'
+    player2 = player2.loc[(player2['season'] >= start) & (player2['season'] <= end)]
 
-        bigdf = pd.concat([player, player2], ignore_index=True)
+    bigdf = pd.concat([player, player2], ignore_index=True)
 
 
-        st.plotly_chart(shotMap(bigdf))
-        st.plotly_chart(lineChart(player,player2,player1name,player2name))
-        st.plotly_chart(shotTypes(player,player2,player1name,player2name))
-        st.plotly_chart(results(player,player2,player1name,player2name))
-        st.plotly_chart(shotTypesxG(player,player2,player1name,player2name))
-        st.plotly_chart(resultsxG(player,player2,player1name,player2name))
-        st.plotly_chart(hist(bigdf))
-    except Exception as e:
-        st.write("There was an error. Please retry with different values. ")
+    st.plotly_chart(shotMap(bigdf))
+    st.plotly_chart(lineChart(player,player2,player1name,player2name))
+    st.plotly_chart(shotTypes(player,player2,player1name,player2name))
+    st.plotly_chart(results(player,player2,player1name,player2name))
+    st.plotly_chart(shotTypesxG(player,player2,player1name,player2name))
+    st.plotly_chart(resultsxG(player,player2,player1name,player2name))
+    st.plotly_chart(hist(bigdf))

@@ -76,34 +76,31 @@ def hist(player):
 
 if button:
     understat = UnderstatClient()
-    try:
-        player_shot_data = understat.player(player=player_id).get_shot_data()
-        player = pd.DataFrame(player_shot_data)
-        player.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
-        player = player[player.result != 'OwnGoal']
-        player['date'] = pd.to_datetime(player['date']).dt.date
-        player['Goals Scored'] = 0
-        for index, row in player.iterrows():
-            if row['result'] == 'Goal':
-                player.at[index, 'Goals Scored'] = 1
+    player_shot_data = understat.player(player=player_id).get_shot_data()
+    player = pd.DataFrame(player_shot_data)
+    player.loc[:, ['X', 'Y', 'minute', 'xG', 'season', 'h_goals', 'a_goals']] = player.loc[:,['X', 'Y', 'minute', 'xG', 'season','h_goals', 'a_goals']].astype(float)
+    player = player[player.result != 'OwnGoal']
+    player['date'] = pd.to_datetime(player['date']).dt.date
+    player['Goals Scored'] = 0
+    for index, row in player.iterrows():
+        if row['result'] == 'Goal':
+            player.at[index, 'Goals Scored'] = 1
 
-        player['cum goals'] = np.round(player['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player['cum xg'] = np.round(player['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
-        player['diff'] = np.round((player['Goals Scored'] - player['xG']).to_numpy().astype(np.double), decimals=6)
-        player['xG'] = np.round(player['xG'].to_numpy().astype(np.double), decimals=6)
-        player['IsGoal'] = np.nan
-        for index, row in player.iterrows():
-            if row['result'] == 'Goal':
-                player.at[index, 'IsGoal'] = 'Goal'
-            else:
-                player.at[index, 'IsGoal'] = 'No Goal'
-        player=player.loc[(player['season'] >= start) & (player['season'] <= end)]
-        st.plotly_chart(shotMap(player))
-        st.plotly_chart(lineChart(player))
-        st.plotly_chart(shotTypes(player))
-        st.plotly_chart(results(player))
-        st.plotly_chart(shotTypesxG(player))
-        st.plotly_chart(resultsxG(player))
-        st.plotly_chart(hist(player))
-    except:
-        st.write('There was an error. Please try again with a different ID or date')
+    player['cum goals'] = np.round(player['Goals Scored'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player['cum xg'] = np.round(player['xG'].cumsum().to_numpy().astype(np.double), decimals=6)
+    player['diff'] = np.round((player['Goals Scored'] - player['xG']).to_numpy().astype(np.double), decimals=6)
+    player['xG'] = np.round(player['xG'].to_numpy().astype(np.double), decimals=6)
+    player['IsGoal'] = np.nan
+    for index, row in player.iterrows():
+        if row['result'] == 'Goal':
+            player.at[index, 'IsGoal'] = 'Goal'
+        else:
+            player.at[index, 'IsGoal'] = 'No Goal'
+    player=player.loc[(player['season'] >= start) & (player['season'] <= end)]
+    st.plotly_chart(shotMap(player))
+    st.plotly_chart(lineChart(player))
+    st.plotly_chart(shotTypes(player))
+    st.plotly_chart(results(player))
+    st.plotly_chart(shotTypesxG(player))
+    st.plotly_chart(resultsxG(player))
+    st.plotly_chart(hist(player))

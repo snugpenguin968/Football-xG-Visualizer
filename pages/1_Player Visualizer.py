@@ -52,7 +52,7 @@ def shotTypes(player):
     shotTypes = pd.DataFrame(player['shotType'].value_counts())
     st.write(player['shotType'].value_counts())
     st.write(shotTypes)
-    fig = px.pie(shotTypes, values='shotType', names=shotTypes.index, color_discrete_sequence=px.colors.sequential.RdBu,title='Player Shot Types')
+    fig = px.pie(shotTypes, values='count', names=shotTypes.index, color_discrete_sequence=px.colors.sequential.RdBu,title='Player Shot Types')
     return fig
 def results(player):
     result = pd.DataFrame(player['result'].value_counts())

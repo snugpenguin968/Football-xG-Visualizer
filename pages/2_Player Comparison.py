@@ -63,10 +63,10 @@ def shotTypes(player,player2,player1name,player2name):
     shotTypes2 = pd.DataFrame(player2['shotType'].value_counts())
 
     labels1 = shotTypes.index
-    values1 = shotTypes['shotType']
+    values1 = shotTypes['count']
 
     labels2 = shotTypes2.index
-    values2 = shotTypes2['shotType']
+    values2 = shotTypes2['count']
 
     fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'pie'}, {'type': 'pie'}]])
     fig.update_layout(title='Player Shot Types',width=1200)
@@ -79,10 +79,10 @@ def results(player,player2,player1name,player2name):
     result2 = pd.DataFrame(player2['result'].value_counts())
 
     labels1 = result1.index
-    values1 = result1['result']
+    values1 = result1['count']
 
     labels2 = result2.index
-    values2 = result2['result']
+    values2 = result2['count']
 
     fig = make_subplots(rows=1, cols=2, specs=[[{'type': 'pie'}, {'type': 'pie'}]])
     fig.update_layout(title='Player Shot Results',width=1200)
